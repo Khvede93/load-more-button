@@ -11,8 +11,8 @@ export const LoadMoreButton = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://dummyjson.com/products?limit=20&skip=${
-          count === 0 ? 0 : count * 20
+        `https://dummyjson.com/products?limit=21&skip=${
+          count === 0 ? 0 : count * 21
         }`
       );
       if (!response.ok) {
@@ -29,7 +29,6 @@ export const LoadMoreButton = () => {
       setLoading(false);
     }
   }
-  console.log(products);
 
   useEffect(() => {
     fetchProducts();
@@ -45,15 +44,20 @@ export const LoadMoreButton = () => {
 
   return (
     <div className='container'>
-      {products && products.length
-        ? products.map((product) => (
-            <div key={product.id}>
-              <img src={product.thumbnail} alt={product.title} />
-              <h2>{product.title}</h2>
-              <p>{product.description}</p>
-            </div>
-          ))
-        : null}
+      <section className='products-container'>
+        {products && products.length
+          ? products.map((product) => (
+              <div className='product' key={product.id}>
+                <img src={product.thumbnail} alt={product.title} />
+                <h2>{product.title}</h2>
+                <button>Buy Now</button>
+              </div>
+            ))
+          : null}
+      </section>
+      <div>
+        <button className='load-more'>Load More</button>
+      </div>
     </div>
   );
 };
