@@ -11,8 +11,8 @@ export const LoadMoreButton = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://dummyjson.com/products?limit=21&skip=${
-          count === 0 ? 0 : count * 21
+        `https://dummyjson.com/products?limit=20&skip=${
+          count === 0 ? 0 : count * 20
         }`
       );
       if (!response.ok) {
@@ -22,7 +22,7 @@ export const LoadMoreButton = () => {
       if (!data || !data.products || !data.products.length) {
         throw new Error(`No Products found`);
       }
-      setProducts(data.products);
+      setProducts((prev) => [...prev, ...data.products]);
     } catch (e) {
       setErrorM(e.message);
     } finally {
@@ -32,7 +32,7 @@ export const LoadMoreButton = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [count]);
 
   if (loading) {
     return <div>Loading Data ! Please Wait</div>;
@@ -55,8 +55,10 @@ export const LoadMoreButton = () => {
             ))
           : null}
       </section>
-      <div>
-        <button className='load-more'>Load More</button>
+      <div className='button-container'>
+        <button className='load-more' onClick={() => setCount(count + 1)}>
+          Load More
+        </button>
       </div>
     </div>
   );
