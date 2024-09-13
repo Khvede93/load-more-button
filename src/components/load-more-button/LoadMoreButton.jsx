@@ -11,17 +11,25 @@ export const LoadMoreButton = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        'https://dummyjson.com/products?limit=10&skip=10'
+        `https://dummyjson.com/products?limit=20&skip=${
+          count === 0 ? 0 : count * 20
+        }`
       );
       if (!response.ok) {
         throw new Error(`HTTP error ! ${response.status}`);
       }
+      const data = await response.json();
+      if (!data || !data.products || !data.products.length) {
+        throw new Error(`No Products found`);
+      }
+      setProducts(data.products);
     } catch (e) {
       setErrorM(e.message);
     } finally {
       setLoading(false);
     }
   }
+  console.log(products);
 
   useEffect(() => {
     fetchProducts();
