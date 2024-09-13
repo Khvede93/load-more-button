@@ -43,5 +43,17 @@ export const LoadMoreButton = () => {
     return <div>{errorM}</div>;
   }
 
-  return <div className='container'>LoadMoreButton</div>;
+  return (
+    <div className='container'>
+      {products && products.length
+        ? products.map((product) => (
+            <div key={product.id}>
+              <img src={product.thumbnail} alt={product.title} />
+              <h2>{product.title}</h2>
+              <p>{product.description}</p>
+            </div>
+          ))
+        : null}
+    </div>
+  );
 };
